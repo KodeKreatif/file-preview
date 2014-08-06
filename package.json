@@ -1,0 +1,24 @@
+{
+  "name": "file-preview",
+  "version": "0.0.1",
+  "description": "File preview as PNG",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha -A -t 20000"
+  },
+  "keywords": [
+    "pdf",
+    "preview",
+    "png"
+  ],
+  "author": "Mohammad Anwari <mdamt@mdamt.net>",
+  "license": "MIT",
+  "dependencies": {
+    "gm": "^1.16.0",
+    "pdfinfo": "0.0.3"
+  },
+  "devDependencies": {
+    "mocha": "^1.21.3",
+    "should": "^4.0.4"
+  }
+}
