@@ -1,6 +1,6 @@
 {
   "name": "file-preview",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "File preview as PNG",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,7 @@
   "author": "Mohammad Anwari <mdamt@mdamt.net>",
   "license": "MIT",
   "dependencies": {
+    "base64-stream": "^0.1.2",
     "gm": "^1.16.0",
     "pdfinfo": "0.0.3"
   },

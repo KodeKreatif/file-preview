@@ -22,8 +22,13 @@ var previewPdf = function(inputStream, options, outputStream, cb, secondPipe) {
   var size = options.size || 1024;
   var page = options.page || 1;
   var filename = inputStream.path || inputStream;
+  var base64Stream;
+
   if (options.type == "pdf") {
     filename += "[" + (page - 1) + "]";
+  }
+  if (options.encoding == "base64") {
+    base64Stream = require("base64-stream").encode();
   }
   var dataSize = 0;
 
@@ -33,7 +38,7 @@ var previewPdf = function(inputStream, options, outputStream, cb, secondPipe) {
     .stream("png");
 
   outputStream.on("error", function(e) {
-    console.log("error");
+    console.log(e);
     cb(-1);
   });
 
@@ -46,7 +51,11 @@ var previewPdf = function(inputStream, options, outputStream, cb, secondPipe) {
       dataSize = -1;
     }
     cb(dataSize);
-    outputStream.end();
+    if (base64Stream) {
+      base64Stream.end();
+    } else {
+      outputStream.end();
+    }
   });
 
   output.on("data", function(data) {
@@ -56,7 +65,11 @@ var previewPdf = function(inputStream, options, outputStream, cb, secondPipe) {
     }
   });
 
-  output.pipe(outputStream);
+  if (base64Stream) {
+    output.pipe(base64Stream).pipe(outputStream);
+  } else {
+    output.pipe(outputStream);
+  }
 }
 
 var preview = function(inputStream, options, outputStream, cb, secondPipe) {
