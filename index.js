@@ -10,8 +10,17 @@ var info = function(inputStream, cb) {
 
   if (file && file.info) {
     file.info(function(err, data) {
+      var filename;
+
+      if (inputStream.path) {
+        filename = inputStream.path;
+      } else if (inputStream.gstore && inputStream.gstore.filename) {
+        filename = inputStream.gstore.filename;
+      } else {
+        filename = "";
+      }
       var result = {
-        filename: inputStream.path || inputStream,
+        filename: filename,
         numPages: data.pages
       }
       cb(result);
