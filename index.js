@@ -87,7 +87,16 @@ var previewPdf = function(inputStream, options, outputStream, cb, secondPipe) {
 }
 
 var preview = function(inputStream, options, outputStream, cb, secondPipe) {
-  var filename = inputStream.path;
+  var filename;
+  if (inputStream.path) {
+    filename = inputStream.path;
+  } else if (inputStream.gstore && inputStream.gstore.filename) {
+    filename = inputStream.gstore.filename;
+  } else {
+    // UNDEFINED!
+    filename = "";
+  }
+
   if (filename.toLowerCase().lastIndexOf(".pdf") == (filename.length - 4)) {
     options.type = "pdf";
   } else if (filename.toLowerCase().lastIndexOf(".png") == (filename.length - 4)) {
