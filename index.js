@@ -3,6 +3,11 @@ var gm = require("gm");
 
 var info = function(inputStream, cb) {
   var file = pdfInfo(inputStream);
+
+  inputStream.on("error", function() {
+    cb(null);
+  });
+
   if (file && file.info) {
     file.info(function(err, data) {
       var result = {

@@ -11,6 +11,15 @@ describe("Info", function() {
       done();
     });
   });
+
+  it ("should return null when error", function(done) {
+    var readStream = fs.createReadStream(__dirname + "/mit.pd");
+    pdfPreview.info(readStream, function(info) {
+      should(info).not.be.ok;
+      done();
+    });
+  });
+
 });
 
 describe("Preview", function() {
