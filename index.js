@@ -1,6 +1,18 @@
 var pdfInfo = require("pdfinfo");
 var gm = require("gm");
 
+var getFilename = function(stream) {
+  if (stream.path) {
+    filename = stream.path;
+  } else if (stream.gstore && stream.gstore.filename) {
+    filename = stream.gstore.filename;
+  } else {
+    filename = "";
+  }
+
+  return filename;
+}
+
 var info = function(inputStream, cb) {
   var file = pdfInfo(inputStream);
 
@@ -10,15 +22,7 @@ var info = function(inputStream, cb) {
 
   if (file && file.info) {
     file.info(function(err, data) {
-      var filename;
-
-      if (inputStream.path) {
-        filename = inputStream.path;
-      } else if (inputStream.gstore && inputStream.gstore.filename) {
-        filename = inputStream.gstore.filename;
-      } else {
-        filename = "";
-      }
+      var filename = getFilename(inputStream);
       var result = {
         filename: filename,
         numPages: data.pages
@@ -35,7 +39,7 @@ var previewPdf = function(inputStream, options, outputStream, cb, secondPipe) {
   var density = options.density || 600;
   var size = options.size || 1024;
   var page = options.page || 1;
-  var filename = inputStream.path || inputStream;
+  var filename = getFilename(inputStream);
   var base64Stream;
 
   if (options.type == "pdf") {
@@ -46,6 +50,7 @@ var previewPdf = function(inputStream, options, outputStream, cb, secondPipe) {
   }
   var dataSize = 0;
 
+  console.log(options);
   var output = gm(inputStream, filename)
     .density(density, density)
     .resize(size)
@@ -87,15 +92,7 @@ var previewPdf = function(inputStream, options, outputStream, cb, secondPipe) {
 }
 
 var preview = function(inputStream, options, outputStream, cb, secondPipe) {
-  var filename;
-  if (inputStream.path) {
-    filename = inputStream.path;
-  } else if (inputStream.gstore && inputStream.gstore.filename) {
-    filename = inputStream.gstore.filename;
-  } else {
-    // UNDEFINED!
-    filename = "";
-  }
+  var filename = getFilename(inputStream);
 
   if (filename.toLowerCase().lastIndexOf(".pdf") == (filename.length - 4)) {
     options.type = "pdf";
