@@ -50,7 +50,6 @@ var previewPdf = function(inputStream, options, outputStream, cb, secondPipe) {
   }
   var dataSize = 0;
 
-  console.log(options);
   var output = gm(inputStream, filename)
     .density(density, density)
     .resize(size)
