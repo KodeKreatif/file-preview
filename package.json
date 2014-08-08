@@ -1,6 +1,6 @@
 {
   "name": "file-preview",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "File preview as PNG",
   "main": "index.js",
   "scripts": {
