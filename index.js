@@ -22,12 +22,17 @@ var info = function(inputStream, cb) {
 
   if (file && file.info) {
     file.info(function(err, data) {
-      var filename = getFilename(inputStream);
-      var result = {
-        filename: filename,
-        numPages: data.pages
+      if (err) {
+        console.log(err);
+        cb(null);
+      } else {
+        var filename = getFilename(inputStream);
+        var result = {
+          filename: filename,
+          numPages: data.pages
+        }
+        cb(result);
       }
-      cb(result);
     });
   } else {
     cb(null);
